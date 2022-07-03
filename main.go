@@ -1,13 +1,14 @@
 package main
 
 import (
+	_ "todo_app_api_go/app/database"
 	"todo_app_api_go/route"
 )
 
 func main() {
 	const port string = ":9000"
 
-	app := route.Setup()
+	appRoute := route.Setup()
 
-	app.Run(port)
+	appRoute.Run(port)
 }
