@@ -15,7 +15,7 @@ func init() {
 func Setup() *gin.Engine {
 	Route.Use(middleware.Logger())
 
-	Root()
+	RootRoute()
 
 	return Route
 }
