@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "todo_app_api_go/app/database"
+	_ "todo_app_api_go/app"
 	"todo_app_api_go/route"
 )
 

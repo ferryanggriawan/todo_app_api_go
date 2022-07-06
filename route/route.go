@@ -1,15 +1,21 @@
 package route
 
 import (
-	"todo_app_api_go/app/handler"
+	"todo_app_api_go/app/middleware"
 
 	"github.com/gin-gonic/gin"
 )
 
+var Route *gin.Engine
+
+func init() {
+	Route = gin.Default()
+}
+
 func Setup() *gin.Engine {
-	r := gin.Default()
+	Route.Use(middleware.Logger())
 
-	r.GET("/", handler.RootHandler)
+	Root()
 
-	return r
+	return Route
 }
