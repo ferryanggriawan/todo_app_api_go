@@ -3,16 +3,9 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"todo_app_api_go/config"
 
 	_ "github.com/lib/pq"
-)
-
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "postgres"
-	password = "postgres"
-	dbname   = "todo_app"
 )
 
 var Db *sql.DB
@@ -44,9 +37,15 @@ func Connect() {
 }
 
 func getDB() (*sql.DB, error) {
+	config := config.GetConfig()
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+		config.DB.Host,
+		config.DB.Port,
+		config.DB.Username,
+		config.DB.Password,
+		config.DB.Name,
+	)
 
 	db, err := sql.Open("postgres", psqlInfo)
 	Db = db
