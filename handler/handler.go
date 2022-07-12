@@ -1,15 +1,13 @@
 package handler
 
-import (
-	"todo_app_api_go/model"
+import "github.com/gin-gonic/gin"
 
-	"github.com/gin-gonic/gin"
-)
+func ErrorHttp(ctx *gin.Context) {
+	if ctx.Errors != nil {
+		resp := gin.H{
+			"message": "unknown error",
+		}
 
-func RootHandler(ctx *gin.Context) {
-	resp := model.Default{
-		Message: "This is root path",
+		ctx.JSON(500, resp)
 	}
-
-	ctx.JSON(200, resp)
 }
