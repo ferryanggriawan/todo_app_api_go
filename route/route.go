@@ -6,16 +6,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var Route *gin.Engine
-
-func init() {
-	Route = gin.Default()
+type Route struct {
+	Router *gin.Engine
 }
 
-func Setup() *gin.Engine {
-	Route.Use(middleware.Logger())
+func (r *Route) Initialize() {
+	r.Router = gin.Default()
+}
 
-	RootRoute()
+func (r *Route) Setup() *gin.Engine {
+	root := &Root{}
 
-	return Route
+	r.Router.Use(middleware.Logger())
+	root.SetupRoute(r)
+
+	return r.Router
 }

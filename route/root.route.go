@@ -6,13 +6,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var Root *gin.RouterGroup
+type Root struct {
+	Router *gin.RouterGroup
+}
 
-func RootRoute() {
-	Root = Route.Group("/api/v1")
+func (root *Root) SetupRoute(r *Route) {
+	root.Router = r.Router.Group("/api/v1")
 	{
-		Root.GET("/", root_handler.RootHandler)
-		UserRoute()
-		AuthRoute()
+		root.Router.GET("/", root_handler.RootHandler)
+		UserRoute(root)
+		AuthRoute(root)
 	}
 }

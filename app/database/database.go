@@ -8,35 +8,22 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var Db *sql.DB
+type Connection struct {
+	DB *sql.DB
+}
 
-func init() {
-	db, err := getDB()
+func (c *Connection) Initialize() {
+	db, err := c.config()
+	c.DB = db
 
 	if err != nil {
 		panic(err)
 	}
 
-	checkDb(db)
-
-	Db = db
+	c.checkDb()
 }
 
-func Connect() {
-	if Db == nil {
-		db, err := getDB()
-
-		if err != nil {
-			panic(err)
-		}
-
-		checkDb(db)
-
-		Db = db
-	}
-}
-
-func getDB() (*sql.DB, error) {
+func (c *Connection) config() (*sql.DB, error) {
 	config := config.GetConfig()
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
@@ -48,15 +35,14 @@ func getDB() (*sql.DB, error) {
 	)
 
 	db, err := sql.Open("postgres", psqlInfo)
-	Db = db
 
 	return db, err
 }
 
-func checkDb(db *sql.DB) {
-	defer db.Close()
+func (c *Connection) checkDb() {
+	defer c.DB.Close()
 
-	err := db.Ping()
+	err := c.DB.Ping()
 	if err != nil {
 		panic(err)
 	}
