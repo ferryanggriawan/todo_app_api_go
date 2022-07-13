@@ -12,6 +12,13 @@ type Connection struct {
 	DB *sql.DB
 }
 
+var Conn *Connection
+
+func init() {
+	Conn := &Connection{}
+	Conn.Initialize()
+}
+
 func (c *Connection) Initialize() {
 	db, err := c.config()
 	c.DB = db
@@ -25,8 +32,9 @@ func (c *Connection) Initialize() {
 
 func (c *Connection) config() (*sql.DB, error) {
 	config := config.GetConfig()
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
+	dsn := "host=%s port=%d user=%s password=%s dbname=%s sslmode=disable"
+	psqlInfo := fmt.Sprintf(
+		dsn,
 		config.DB.Host,
 		config.DB.Port,
 		config.DB.Username,
