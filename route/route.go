@@ -12,6 +12,7 @@ type Route struct {
 
 func (r *Route) Initialize() {
 	r.Router = gin.Default()
+	r.Setup()
 }
 
 func (r *Route) Setup() *gin.Engine {
