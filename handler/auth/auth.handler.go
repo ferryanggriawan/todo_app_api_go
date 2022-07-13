@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Register User
 func RegisterUser(ctx *gin.Context) {
 	defer handler.ErrorHttp(ctx)
 
